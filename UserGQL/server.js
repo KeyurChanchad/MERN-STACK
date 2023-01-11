@@ -11,9 +11,14 @@ import User from './models/UserModel.js';
 dotenv.config();
 
 const app = express();
+app.use(cors());
+
 const URI = process.env.URI;
 
+
+//For ignore warning
 mongoose.set("strictQuery" ,false);
+
 mongoose.connect(URI, { useNewUrlParser:true, useUnifiedTopology:true});
 
 const db = mongoose.connection;
@@ -26,7 +31,7 @@ db.once('open', (req, res)=>{
 // define typedefs
 const typeDefs = `
     type User{
-        id : ID!,
+        _id : ID!,
         name : String!,
         email : String!,
         contact : String!,
@@ -34,16 +39,29 @@ const typeDefs = `
     }
 
     type Query{
-        users : [User]
+        users : [User],
+        user(name: String!): User,
+        getuser(id : ID!) : User,
     }
 `;
 
 //define users resolvers
 const resolvers = {
     Query : {
-        users : (obj, args, context, info) => context.users
-    },
-}
+        users : (obj, args, context, info)  => {return context.users},
+
+        user : function (parent, args, context, info) {
+            console.log(args.name);
+            return context.users.find((user) => user.name === args.name);
+        },
+
+        getuser : function (parent, args, context, info) {
+            console.log(args.id);
+            return context.users.find((user) => user._id.toString() === args.id);
+        },
+        
+    }
+};
 
 //Define Graphql user schema
 const UserSchema = makeExecutableSchema({
@@ -51,27 +69,33 @@ const UserSchema = makeExecutableSchema({
     resolvers
 });
 
-//insert new user in User Model
-const newUser = User({
-    name : "Dhrumil",
-    email : "dhrumilgandhi.rao@gmail.com",
-    contact : "1234567890",
-    city : "Ahmedabad"
-});
-//save new user
-newUser.save().then()
 
-const allUsers = await User.find();
-console.log(allUsers);
-const data = {
-    users : allUsers
-}
+    //insert new user in User Model
+    const newUser = User({ 
+        name: "john", 
+        email : "john.dear@gmail.com", 
+        contact : "9632587410", 
+        city : "Miami"
+    });
+
+    //save new user
+    newUser.save().then(()=>{
+        console.log(`${newUser.name} saved successfully.`);
+    }).catch(()=>{
+        console.log("User not saved in database");
+    })
+
+    const allUsers = await User.find();
+    const data = {
+        users : allUsers
+    }
+
 //Endpoints
 app.get('/', (req, res)=>{
     res.send("Home page of the Graphql API");
 });
 
-app.use("/graphql", 
+app.use("/alluser", 
     graphqlHTTP({
         schema : UserSchema,
         context : data,

@@ -25,15 +25,16 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-const newUser = new User({
-    name : "Keyur",
-    email : "keyurchanchad.rao@gmail.com",
-    contact : "7202055029",
-    city : "Amreli"
-});
+// const newUser = new User({
+//     name : "Keyur",
+//     email : "keyurchanchad.rao@gmail.com",
+//     contact : "7202055029",
+//     city : "Amreli"
+// });
 
 // newUser.save((error, data)=>{
 //     error ? console.error("Internal Server Errror!") : console.log(`${newUser.name} inserted successfully.`);
 // });
 
+// module.exports = { User }
 export default User;
