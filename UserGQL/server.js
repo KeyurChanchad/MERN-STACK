@@ -12,6 +12,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const URI = process.env.URI;
 
@@ -24,7 +25,7 @@ mongoose.connect(URI, { useNewUrlParser:true, useUnifiedTopology:true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Database not connected'));
 db.once('open', (req, res)=>{
-    console.log("Mongodb connected successfully.");
+    // console.log("Mongodb connected successfully.");
 });
 
 
@@ -51,7 +52,6 @@ const resolvers = {
         users : (obj, args, context, info)  => {return context.users},
 
         user : function (parent, args, context, info) {
-            console.log(args.name);
             return context.users.find((user) => user.name === args.name);
         },
 
@@ -72,10 +72,10 @@ const UserSchema = makeExecutableSchema({
 
     //insert new user in User Model
     const newUser = User({ 
-        name: "john", 
-        email : "john.dear@gmail.com", 
+        name: "Vishal", 
+        email : "vthummar@gmail.com", 
         contact : "9632587410", 
-        city : "Miami"
+        city : "Bhavnagar"
     });
 
     //save new user
@@ -95,7 +95,7 @@ app.get('/', (req, res)=>{
     res.send("Home page of the Graphql API");
 });
 
-app.use("/alluser", 
+app.use("/graphql", 
     graphqlHTTP({
         schema : UserSchema,
         context : data,
