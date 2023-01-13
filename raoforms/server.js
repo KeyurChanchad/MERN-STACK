@@ -20,7 +20,7 @@ mongoose.set('strictQuery' , false);
 mongoose.connect(uri, {useNewUrlParser : true, useUnifiedTopology : true});
 
 const db = mongoose.connection.once('open', ()=>{
-    console.log('Mongodb connected successfully.');
+    console.log('Mongodb connected successfully.' );
 });
 
 //User's schema and model
@@ -39,22 +39,41 @@ const appointments = new mongoose.model("appointments", appointmentschema);
 const allAppointments = await appointments.find();
 
 
+const dateScalar = new GraphQLScalarType({
+    name: 'Date',
+    description: 'Date custom scalar type',
+    serialize(value) {
+      return value.getTime(); // Convert outgoing Date to integer for JSON
+    },
+    parseValue(value) {
+      return new Date(value); // Convert incoming integer to Date
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.INT) {
+        // Convert hard-coded AST string to integer and then to Date
+        return new Date(parseInt(ast.value, 10));
+      }
+      // Invalid hard-coded value (not an integer)
+      return null;
+    },
+  });
 
 
 //define schema and query
 // primitive data Int, Float, String, Boolean and ID. For JSON and Date you need to define your own custom scalar types
 const typeDefs = `#graphql
     scalar JSON
+    scalar Date
 
     type User{
         _id : ID,
-        name : JSON!
-        email : String!,
+        name : JSON
+        email : String,
         profile_pic : String,
         userRole : String,
         firebase_UID : String,
-        createAt : String,
-        updatedAt : String
+        createAt : Date,
+        updatedAt : Date
     }
    
     type Form{
@@ -76,25 +95,69 @@ const typeDefs = `#graphql
         createdBy : JSON,
         formDetails : JSON
     }
-    
+
     type Query{
-        users : [User],
-
-        forms : [Form],
-
-        appointments : [Appointment]
+        getUsers(id: ID, email: String): User,
+        
+        getForms(id: ID, idOfCreated: ID, name: String): [Form],
+        
+        getAppointments: [Appointment]
     }
-`;
+    `;
 
 const resolvers = {
     JSON: GraphQLJSON,
 
+    Date: dateScalar,
+
     Query : {
-        users : (parent, args, context, info) => context.users,
+        getUsers : (parent, args, context, info) => {
+            if (args.id) {
+                    return context.users.find((user)=> {
+                        if( user._id.toString() === args.id){
+                            return user
+                        }
+                    })
+            }
+            else if(args.email){
+                for (let index = 0; index < context.users.length; index++) {
+                    const user = context.users[index];
+                    if (user.email === args.email) {
+                        return context.users[index]
+                    }
+                }
+            }
+            else{
+                return context.users
+            }
+        },
 
-        forms : (parent, args, context, info) => context.forms,
+        getForms : (parent, args, context, info) => {
+            const { id, name, idOfCreated } = args;
+            if (id) {
+                    return context.forms.find((form, index) =>{
+                        if (form._id.toString() === id){
+                            return [form];
+                        }
+                    });
+            }
+            else if (idOfCreated || name) {
+                if (idOfCreated){
+                    return context.forms.filter((form) =>{
+                        return form.createdBy._id.toString() === idOfCreated
+                    })
+                }
+                else if (name){
+                    return context.forms.filter((form) => form.createdBy.name === name )
+                }
+            }
+            else{
+                return context.forms
+            }
 
-        appointments : (parent, args, context, info) => context.appointments,
+        },
+
+        getAppointments : (parent, args, context, info) => context.appointments,
 
     }
 };

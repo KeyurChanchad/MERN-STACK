@@ -1,0 +1,86 @@
+{
+    "_id": {
+      "$oid": "63c0f14234d66ae2b155f91a"
+    },
+  "data" : {
+    "form": {
+      "attachments": {
+        "googleSheetId": null,
+        "qr_code": "https://app.raoforms.com/live/c79127ca218d2d51-6133c88f023d7bfd"
+      },
+      "createdAt": "2023-01-13T05:35:52.727Z",
+      "createdBy": {
+        "email": "chanchadkeyur.rao@gmail.com",
+        "name": "Keyur Chanchad",
+        "role": "user",
+        "_id": "63b92d4ad44fd37335a56108"
+      },
+      "fields": [
+        {
+          "fields": [
+            {
+              "controlName": "add-text",
+              "description": "",
+              "error": "",
+              "label": "Add text",
+              "options": [],
+              "placeholder": "Enter text",
+              "required": false,
+              "type": "text",
+              "_id": "63c0edb86fc6866bec102dfc"
+            },
+            {
+              "controlName": "add-text-1",
+              "description": "",
+              "error": "",
+              "label": "Add text",
+              "options": [],
+              "placeholder": "Enter text",
+              "required": false,
+              "type": "textarea",
+              "_id": "63c0edb86fc6866bec102dfd"
+            }
+          ],
+          "stepperName": "Section 1",
+          "_id": "63c0edb86fc6866bec102dfb"
+        }
+      ],
+      "formKey": "c79127ca218d2d51-6133c88f023d7bfd",
+      "name": "User inquiry",
+      "originalFormDetails": null,
+      "settings": {
+        "backgroundColor": "#DCDFEF",
+        "backgroundImage": "",
+        "displayTitle": "User inquiry",
+        "failureMessage": "",
+        "fontStyle": "Roboto",
+        "formDescription": "",
+        "headerImage": "",
+        "logo": {
+          "alignment": {
+            "horizontal": "left",
+            "vertical": "bottom"
+          },
+          "url": ""
+        },
+        "recipientEmailField": "",
+        "stopResponse": "",
+        "successMessage": "",
+        "themeColor": "#3F51B5",
+        "_submission": false
+      },
+      "updatedAt": "2023-01-13T05:39:34.215Z",
+      "__v": 0,
+      "_appointmentRef": null,
+      "_archived": false,
+      "_cloned": false,
+      "_id": "63c0edb86fc6866bec102dfa",
+      "_live": false,
+      "_templateRef": null
+    }
+  },
+  "errors": [],
+  "message": "Form found successfully",
+  "meta": {},
+  "success": true
+  }
