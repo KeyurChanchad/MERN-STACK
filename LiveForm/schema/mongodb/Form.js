@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const formSchema = new mongoose.Schema({}, {strict: false});
-const formModel = new mongoose.model("liveforms", formSchema);
-const allForms = await formModel.find();
+const forms = new mongoose.model("forms", formSchema);
+const allForms = await forms.find();
 
 export default allForms;

@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import { graphqlHTTP } from 'express-graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import "./db/db_connection.js";
-import allForms from './schema/mongodb/liveForm.js';
-import typeDefs from './schema/graphql/Form.js';
-import resolvers from './resolvers/resolvers.js'
+import allForms from './schema/mongodb/Form.js';
+import allAppointments from './schema/mongodb/Appointment.js';
+import allFormSubmissions from './schema/mongodb/FormSubmission.js';
+import typeDefs from './schema/graphql/TypeDefs.js';
+import resolvers from './resolvers/Resolvers.js'
 
 //configure dotenv for access .env variables
 dotenv.config();
@@ -15,9 +17,7 @@ const app = express();
 
 const FormSchema = makeExecutableSchema({typeDefs, resolvers});
 
-const data = {
-    allForms
-}
+const data = { allForms, allAppointments, allFormSubmissions }
 
 //Endpoints
 app.get('/', (req, res)=>{

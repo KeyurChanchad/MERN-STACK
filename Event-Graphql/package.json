@@ -1,8 +1,8 @@
 {
-  "name": "liveform",
+  "name": "event-graphql",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js"
   },
@@ -10,15 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@graphql-tools/schema": "^9.0.13",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "body-parser": "^1.20.1",
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
-    "graphql": "^16.6.0",
-    "graphql-date-scalars": "^0.2.0",
-    "graphql-type-json": "^0.3.2",
-    "mongoose": "^6.8.3"
+    "graphql": "^16.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
