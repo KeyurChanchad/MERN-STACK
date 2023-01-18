@@ -19,9 +19,10 @@ const typeDefsAppointment = `
 
     type ResponseAppointment{
         success : Boolean,
-        data : Appointment,
+        data : [Appointment],
         message : String,
-        meta : JSON
+        meta : JSON,
+        error : [String]
     }
 
     type Query{

@@ -2,34 +2,34 @@ const typeDefsFormSubmission = `
     scalar JSON
     scalar Date
     scalar DateTime
+    scalar Time
 
     type FormSubmission{
         _id: ID,
         formDetails:JSON,
-        #_appointmentRef: null,
-        #appointmentDate :null,
-        #appointmentTime: null,
-        #appointmentEndTime: null,
+        _appointmentRef: JSON,
+        appointmentDate : Date,
+        appointmentTime: Time,
+        appointmentEndTime: Time,
         ipAddress: String,
         submitLocation: String,
         domainAddress: String,
         _archived: Boolean,
         submittedData: JSON,
         createdAt: DateTime,
-        updatedAt: DateTime,
-        #__v: Int
+        updatedAt: DateTime
     }
 
     type ResponseFormSubmission {
-        data: FormSubmission
+        data: [FormSubmission]
         message: String
         meta: JSON
         success: Boolean,
         error : [String]
     }
 
-    type ResponseAllFormSubmission {
-        data: [FormSubmission]
+    type ResponseFormSubmissions {
+        data: JSON
         message: String
         meta: JSON
         success: Boolean ,
@@ -37,9 +37,10 @@ const typeDefsFormSubmission = `
     }
 
     type Query {
-        getFormSubmitted(id: ID!): ResponseFormSubmission,
+        getFormSubmission(id: ID!): ResponseFormSubmission,
 
-        getAllFormSubmitted(formId: ID!): ResponseAllFormSubmission
+        getFormSubmissions(formId: ID!, limit: Int, skip: Int): ResponseFormSubmissions
+
     }
 
 `;

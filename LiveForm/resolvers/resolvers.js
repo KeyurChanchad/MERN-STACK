@@ -1,20 +1,22 @@
 import getAppointment from './Appointment.js';
-import  getForm  from './Form.js'
+import  { getForm, getUserForms }  from './Form.js'
 import GraphQLJSON from 'graphql-type-json';
-import getFormSubmitted from './FormSubmission.js';
-import  { getAllFormSubmitted } from './FormSubmission.js';
+import getFormSubmission from './FormSubmission.js';
+import  { getFormSubmissions } from './FormSubmission.js';
 import { DateScalar, TimeScalar, DateTimeScalar } from 'graphql-date-scalars';
 
 const resolvers = {
     JSON: GraphQLJSON,
     Date: DateScalar,
     DateTime: DateTimeScalar,
+    Time: TimeScalar,
 
     Query : {
         getForm,
+        getUserForms,
         getAppointment,
-        getFormSubmitted,
-        getAllFormSubmitted
+        getFormSubmission,
+        getFormSubmissions
     }
      
 };
